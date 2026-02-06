@@ -80,7 +80,7 @@ export const App = () => {
   }, [currentGuess, guesses]);
 
   return (
-    <div className="flex flex-col items-center w-full max-w-[500px] h-screen p-4">
+    <div className="flex flex-col items-center w-full max-w-[500px] h-screen p-0 md:p-4">
       <header className="border-b border-border-empty w-full py-4 mb-8 text-center">
         <h1 className="text-3xl font-bold tracking-widest uppercase">
           Jessica Wordle
