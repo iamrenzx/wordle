@@ -1,7 +1,7 @@
 import { Fireworks } from "../Fireworks";
 import "./styles.css";
 
-export const Success = () => {
+export const Success = ({ solution }: { solution: string }) => {
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center">
       <Fireworks />
@@ -15,7 +15,7 @@ export const Success = () => {
         </p>
 
         <div className="flex justify-center gap-2 mb-8">
-          {["H", "O", "N", "E", "Y"].map((l, i) => (
+          {solution.split("").map((l, i) => (
             <div
               key={i}
               className="w-12 h-12 bg-pink-600 text-white flex items-center justify-center font-bold rounded-lg shadow-lg"

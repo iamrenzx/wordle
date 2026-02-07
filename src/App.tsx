@@ -116,7 +116,7 @@ export const App = () => {
         </h1>
       </header>
 
-      {page === "success" && <Success />}
+      {page === "success" && <Success solution={solution} />}
 
       {page === "failed" && <Failed solution={solution} />}
 
