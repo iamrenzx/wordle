@@ -16,7 +16,7 @@ export const App = () => {
   const [guesses, setGuesses] = useState<string[]>([]);
   const [currentGuess, setCurrentGuess] = useState("");
   const [page, setPage] = useState<string | null>(null);
-  const solution = "HONEY";
+  const solution = "ROSES";
 
   const onChar = (value: string) => {
     if (currentGuess.length < 5 && guesses.length < 6) {
@@ -79,6 +79,35 @@ export const App = () => {
     return () => window.removeEventListener("keydown", handleKeyDown);
   }, [currentGuess, guesses]);
 
+  const getStatuses = () => {
+    const statuses: { [key: string]: string } = {};
+
+    guesses.forEach((word) => {
+      word.split("").forEach((letter, i) => {
+        if (letter === solution[i]) {
+          statuses[letter] = "bg-correct text-white"; // Green
+          return;
+        }
+
+        if (
+          solution.includes(letter) &&
+          statuses[letter] !== "bg-correct text-white"
+        ) {
+          statuses[letter] = "bg-present text-white"; // Yellow
+          return;
+        }
+
+        if (!statuses[letter]) {
+          statuses[letter] = "bg-absent text-white"; // Gray
+        }
+      });
+    });
+
+    return statuses;
+  };
+
+  const charStatuses = getStatuses();
+
   return (
     <div className="flex flex-col items-center w-full max-w-[500px] h-screen p-0 md:p-4">
       <header className="border-b border-border-empty w-full py-4 mb-8 text-center">
@@ -134,6 +163,7 @@ export const App = () => {
               onEnter={onEnter}
               onChar={onChar}
               rows={rows}
+              charStatuses={charStatuses}
             />
           </div>
         </div>

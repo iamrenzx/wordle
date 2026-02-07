@@ -1,10 +1,11 @@
-import type { KeyValue } from "../../types";
+import type { KeyValue, LetterKey } from "../../types";
 
 type KeyboardProps = {
   rows: KeyValue[][];
   onChar: (value: KeyValue) => void;
   onDelete: () => void;
   onEnter: () => void;
+  charStatuses?: Partial<Record<LetterKey, string>>;
 };
 
 export const Keyboard = ({
@@ -12,7 +13,11 @@ export const Keyboard = ({
   onChar,
   onDelete,
   onEnter,
+  charStatuses = {},
 }: KeyboardProps) => {
+  const isLetterKey = (key: KeyValue): key is LetterKey =>
+    key !== "ENTER" && key !== "⌫";
+
   return (
     <div className="w-full max-w-[500px] mt-4 pb-8 flex flex-col gap-2">
       {rows.map((row, rowIndex) => (
@@ -21,7 +26,11 @@ export const Keyboard = ({
           className="flex justify-center gap-1.5 w-full touch-none"
         >
           {row.map((key) => {
-            const isSpecial = key === "ENTER" || key === "⌫";
+            const isSpecial = !isLetterKey(key);
+
+            const statusClass = isLetterKey(key)
+              ? (charStatuses[key] ?? "bg-[#d3d6da]")
+              : "bg-[#d3d6da]";
 
             return (
               <button
@@ -33,8 +42,8 @@ export const Keyboard = ({
                 }}
                 className={`
                   h-14 px-2 md:px-4 rounded font-bold uppercase flex items-center justify-center cursor-pointer select-none transition-colors
-                  ${isSpecial ? "flex-1 text-xs" : "flex-1 text-xs md:text-sm"}
-                  bg-[#d3d6da] hover:bg-[#939598] active:bg-[#565758]
+                  ${isSpecial ? "flex-1 text-xs bg-[#d3d6da]" : `flex-1 text-xs md:text-sm ${statusClass}`}
+                  hover:bg-[#939598] active:bg-[#565758]
                 `}
               >
                 {key}
